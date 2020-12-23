@@ -32,19 +32,25 @@ def where_am_i():
         if 'tegra' in platform.platform():
             print('definitely jetson')
             #sudo apt-get install lshw
-            subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
+            #subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
+            subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
             subprocess_return = str(subprocess_out.stdout.read())
-            print("There should written machine id at around end of string : ",subprocess_return) 
+            soc_id = subprocess_return.split(",").pop()
+            #print(soc_id)
+            list_soc_ids = ["194","210","194","186","210"]
+
+            list_soc_ids_machines = ["Jetson Xavier NX","Jetson Nano","Jetson AGX Xavier series","Jetson TX2","Jetson TX1"]
+            #print("There should written machine id at around end of string : ",subprocess_return) 
             list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
-            print("list of machine ids ",list_of_machine_ids)
+            #print("list of machine ids ",list_of_machine_ids)
 
             list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","Jetson TX1"]
-            print("corresponding list of machine names  ",list_of_machine_names)
+            #print("corresponding list of machine names  ",list_of_machine_names)
 
             found = False
-            for i in range(len(list_of_machine_ids)):
-                if str(list_of_machine_ids[i]) in subprocess_return:
-                    print(list_of_machine_names[i])
+            for i in range(len(list_soc_ids)):
+                if str(list_soc_ids[i]) in soc_id:
+                    print(list_soc_ids_machines[i])
                     found = True
             if found == False:
                 print("unknown jetson")     
