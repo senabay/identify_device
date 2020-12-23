@@ -38,7 +38,7 @@ def where_am_i():
             list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
             print("list of machine ids ",list_of_machine_ids)
 
-            list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA Jetson™ TX2i and Jetson TX2 4GB","Jetson TX1"]
+            list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","Jetson TX1"]
             print("corresponding list of machine names  ",list_of_machine_names)
 
             found = False
