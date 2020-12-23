@@ -2,6 +2,8 @@ import platform
 def where_am_i():
     '''Determines which device this script is running on'''
     current_machine = platform.machine()
+    print('Platform processor:', platform.processor()) 
+    print('Platform architecture:', platform.architecture())
     if current_machine == 'armv7l':
         print('probably pi3')
     elif current_machine == 'x86_64':
