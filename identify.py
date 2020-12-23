@@ -29,7 +29,7 @@ def where_am_i():
             print('definitely jetson')
             #sudo apt-get install lshw
             subprocess_out = subprocess.Popen("cat /proc/cpuinfo", shell=True, stdout=subprocess.PIPE)
-            subprocess_return = subprocess_out.stdout.read()
+            subprocess_return = str(subprocess_out.stdout.read())
             #print(subprocess_return)
             if 'ARMv8 Processor rev 0' in subprocess_return: 
                 print("this is jetson nx")
