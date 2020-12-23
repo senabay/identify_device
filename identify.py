@@ -3,7 +3,16 @@ import subprocess
 def where_am_i():
     '''Determines which device this script is running on'''
     current_machine = platform.machine()
-
+    try:
+        os_system_info_out = subprocess.Popen("cat /etc/os-release", shell=True, stdout=subprocess.PIPE)
+        os_system_info_return = str(os_system_info_out.read())
+        x1= re.search("NAME=", os_system_info_return)
+        start_index_os = x1.end()
+        x2= re.search("VERSION=", os_system_info_return)
+        end_index_os = x2.start()
+        print(os_system_info_return[x1:x2])
+    except:
+        print("there is no file such as: /etc/os-release")    
 
     if current_machine == 'armv7l':
         print('probably pi3')
@@ -24,7 +33,7 @@ def where_am_i():
             subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
             subprocess_return = str(subprocess_out.stdout.read())
             list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
-            list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA® Jetson™ TX2i and Jetson TX2 4GB","Jetson TX1"]
+            list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA Jetson™ TX2i and Jetson TX2 4GB","Jetson TX1"]
             found = False
             for i in range(len(list_of_machine_ids)):
                 if str(list_of_machine_ids[i]) in subprocess_return:
