@@ -34,7 +34,7 @@ def where_am_i():
             if 'ARMv8 Processor rev 0' in subprocess_return: 
                 print("this is jetson nx")
             if 'ARMv8 Processor rev 3' in subprocess_return: 
-                print("this is jetson nx")  
+                print("this is jetson tx")  
         else:
             print('no idea')
     else:
