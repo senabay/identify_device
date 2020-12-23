@@ -3,9 +3,9 @@ import subprocess
 def where_am_i():
     '''Determines which device this script is running on'''
     current_machine = platform.machine()
-    print('Platform processor:', platform.processor()) 
-    print('Platform architecture:', platform.architecture())
-    print('Python SCM:', platform.python_compiler()) 
+    #print('Platform processor:', platform.processor()) 
+    #print('Platform architecture:', platform.architecture())
+    #print('Python SCM:', platform.python_compiler()) 
     
 
     #list_files = subprocess.run(["ls", "-l"])
