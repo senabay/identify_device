@@ -16,8 +16,12 @@ def where_am_i():
         print('probably pi3')
        
         subprocess_out = subprocess.Popen("cat /proc/cpuinfo", shell=True, stdout=subprocess.PIPE)
-        subprocess_return = subprocess_out.stdout.read()
-        print(subprocess_return)
+        subprocess_return = str(subprocess_out.stdout.read())
+        #print(str(subprocess_return))
+        if 'Raspberry Pi 4' in subprocess_return:
+            print("this is raspberry pi 4 ")
+        if 'Raspberry Pi 3' in subprocess_return:  
+            print("this is raspberry pi 3 ")  
     elif current_machine == 'x86_64':
         print('probs workstation')
     elif current_machine == 'aarch64':
