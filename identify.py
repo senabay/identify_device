@@ -36,7 +36,7 @@ def where_am_i():
             subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
             subprocess_return = str(subprocess_out.stdout.read())
             soc_id = subprocess_return.split(",").pop()
-            #print(soc_id)
+            print(soc_id)
             list_soc_ids = ["194","210","194","186","210"]
 
             list_soc_ids_machines = ["Jetson Xavier NX","Jetson Nano","Jetson AGX Xavier series","Jetson TX2","Jetson TX1"]
