@@ -5,7 +5,7 @@ def where_am_i():
     current_machine = platform.machine()
     #try:
     os_system_info_out = subprocess.Popen("cat /etc/os-release", shell=True, stdout=subprocess.PIPE)
-    os_system_info_return = str(os_system_info_out.read())
+    os_system_info_return = str(os_system_info_out.stdout.read())
     x1= re.search('"NAME="', os_system_info_return)
     start_index_os = x1.end()
     x2= re.search('"VERSION="', os_system_info_return)
