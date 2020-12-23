@@ -33,7 +33,7 @@ def where_am_i():
             list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
             list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA® Jetson™ TX2i and Jetson TX2 4GB","Jetson TX1"]
             for i in range(len(list_of_machine_ids)):
-                if list_of_machine_ids[i] in subprocess_return:
+                if str(list_of_machine_ids[i]) in subprocess_return:
                     print(list_of_machine_names[i])
                 else:
                     print("unknown jetson")     
