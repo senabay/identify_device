@@ -34,7 +34,8 @@ def where_am_i():
             #sudo apt-get install lshw
             subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
             subprocess_return = str(subprocess_out.stdout.read())
-            list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
+            print(subprocess_return) 
+	    list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
             list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA Jetson™ TX2i and Jetson TX2 4GB","Jetson TX1"]
             found = False
             for i in range(len(list_of_machine_ids)):
