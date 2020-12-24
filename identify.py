@@ -31,8 +31,7 @@ def where_am_i():
         print('probs workstation')
     elif current_machine == 'aarch64':
         if 'tegra' in platform.platform():
-            print('definitely jetson')
-            
+            print('definitely jetson')            
             list_of_machine_ids =[2180,3310,3489,2888,3448,3668] 
             list_of_machine_names = ["Jetson TX1", "NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","NVIDIA Jetson AGX Xavier"," NVIDIA Jetson Nano","Jetson Xavier NX"]
             def check_in_it(subprocess_that_made):
@@ -62,13 +61,13 @@ def where_am_i():
                 subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
                 subprocess_return1 = str(subprocess_out.stdout.read().decode("utf-8") )
                 machine_is = check_in_it(subprocess_return1)
-
-                        
-            print(machine_is)
-
+           
             
             if machine_is == None:
-                print("unknown jetson")     
+                print("unknown jetson") 
+            else:
+                print(machine_is)
+
 
         else:
             print('no idea')
