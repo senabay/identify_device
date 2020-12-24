@@ -33,41 +33,37 @@ def where_am_i():
         if 'tegra' in platform.platform():
             print('definitely jetson')
             
-            list_of_machine_ids =[2180,3310,3489,2888,3448] 
-            list_of_machine_names = ["Jetson TX1", "NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","NVIDIA Jetson AGX Xavier"," NVIDIA® Jetson Nano™"]
+            list_of_machine_ids =[2180,3310,3489,2888,3448,3668] 
+            list_of_machine_names = ["Jetson TX1", "NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","NVIDIA Jetson AGX Xavier"," NVIDIA Jetson Nano","Jetson Xavier NX"]
             def check_in_it(subprocess_that_made):
                 machine_is = None
                 for i in range(len(list_of_machine_ids)):
                     if str(list_of_machine_ids[i]) in subprocess_that_made:                    
                         machine_is = list_of_machine_names[i]
+                        #print(machine_is)
                 return machine_is
             
             machine_is = None
             
             if machine_is == None:
-                try:
-                    subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,boardids", shell=True, stdout=subprocess.PIPE)
-                    subprocess_return1 = str(subprocess_out.stdout.read())
-                    machine_is = check_in_it(subprocess_return1)
-                except:
-                    machine_is = None    
-            
-            try:
-                subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
-                subprocess_return1 = str(subprocess_out.stdout.read())
+                
+                subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,boardids", shell=True, stdout=subprocess.PIPE)
+                subprocess_return1 = str(subprocess_out.stdout.read().decode("utf-8") )
                 machine_is = check_in_it(subprocess_return1)
-            except:
-                machine_is = None                
             
             if machine_is == None:
-                try:
-                    subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
-                    subprocess_return1 = str(subprocess_out.stdout.read())
-                    machine_is = check_in_it(subprocess_return1)
-                except:
-                    machine_is = None    
-                            
+               
+                subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
+                subprocess_return1 = str(subprocess_out.stdout.read().decode("utf-8") )
+                machine_is = check_in_it(subprocess_return1)
+                        
+            if machine_is == None:
+            
+                subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
+                subprocess_return1 = str(subprocess_out.stdout.read().decode("utf-8") )
+                machine_is = check_in_it(subprocess_return1)
 
+                        
             print(machine_is)
 
             
