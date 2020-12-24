@@ -5,7 +5,7 @@ def where_am_i():
     '''Determines which device this script is running on'''
     current_machine = platform.machine()
     try:
-        os_system_info_out = subprocess.Popen("cat /etc/os-release", shell=True, stdout=subprocess.PIPE)
+        os_system_info_out = subprocess.Popen("cat /etc/os-release", shell=True, stdout=subprocess.PIPE,stderr = subprocess.PIPE)
         os_system_info_return = str(os_system_info_out.stdout.read())
         #print(os_system_info_return)
         x1= re.search('PRETTY_NAME=', os_system_info_return)
@@ -19,7 +19,7 @@ def where_am_i():
 
     if current_machine == 'armv7l':
         print('probably pi3')       
-        subprocess_out = subprocess.Popen("cat /proc/cpuinfo", shell=True, stdout=subprocess.PIPE)
+        subprocess_out = subprocess.Popen("cat /proc/cpuinfo", shell=True, stdout=subprocess.PIPE,stderr = subprocess.PIPE)
         subprocess_return = str(subprocess_out.stdout.read())
         if 'Raspberry Pi 4' in subprocess_return:
             print("this is raspberry pi 4 ")
@@ -46,19 +46,21 @@ def where_am_i():
             if machine_is == None:
                 
                 subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,boardids", shell=True, stdout=subprocess.PIPE,stderr = subprocess.PIPE)
-                subprocess_return1 = str(subprocess_out.stdout)
+                subprocess_return1 = str(subprocess_out.stdout.read())
+                
                 machine_is = check_in_it(subprocess_return1)
             
             if machine_is == None:
                
                 subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE,stderr = subprocess.PIPE)
-                subprocess_return1 = str(subprocess_out.stdout)
+                subprocess_return1 = str(subprocess_out.stdout.read())
+                
                 machine_is = check_in_it(subprocess_return1)
                         
             if machine_is == None:
             
                 subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE,stderr = subprocess.PIPE)
-                subprocess_return1 = str(subprocess_out.stdout)
+                subprocess_return1 = str(subprocess_out.stdout.read())
                 machine_is = check_in_it(subprocess_return1)            
             
             if machine_is == None:
