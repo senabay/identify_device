@@ -42,6 +42,16 @@ def where_am_i():
                         machine_is = list_of_machine_names[i]
                 return machine_is
             
+            machine_is = None
+            
+            if machine_is == None:
+                try:
+                    subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,boardids", shell=True, stdout=subprocess.PIPE)
+                    subprocess_return1 = str(subprocess_out.stdout.read())
+                    machine_is = check_in_it(subprocess_return1)
+                except:
+                    machine_is = None    
+            
             try:
                 subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
                 subprocess_return1 = str(subprocess_out.stdout.read())
@@ -57,13 +67,6 @@ def where_am_i():
                 except:
                     machine_is = None    
                             
-            if machine_is == None:
-                try:
-                    subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,boardids", shell=True, stdout=subprocess.PIPE)
-                    subprocess_return1 = str(subprocess_out.stdout.read())
-                    machine_is = check_in_it(subprocess_return1)
-                except:
-                    machine_is = None    
 
             print(machine_is)
 
