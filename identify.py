@@ -7,12 +7,13 @@ def where_am_i():
     try:
         os_system_info_out = subprocess.Popen("cat /etc/os-release", shell=True, stdout=subprocess.PIPE)
         os_system_info_return = str(os_system_info_out.stdout.read())
-        x1= re.search('NAME=', os_system_info_return)
-        start_index_os = x1.end()
-        x2= re.search('VERSION=', os_system_info_return)
+        #print(os_system_info_return)
+        x1= re.search('PRETTY_NAME=', os_system_info_return)
+        start_index_os = x1.start()
+        x2= re.search('VERSION_ID=', os_system_info_return)
         end_index_os = x2.start()
-        os_system = os_system_info_return[start_index_os:end_index_os]
-        print(re.sub(r'\n', '', os_system))
+        os_system = os_system_info_return[start_index_os:end_index_os-2]
+        print(os_system.rstrip("\n"))
     except:
         print("there is no file such as: /etc/os-release")    
 
@@ -31,28 +32,43 @@ def where_am_i():
     elif current_machine == 'aarch64':
         if 'tegra' in platform.platform():
             print('definitely jetson')
-            #sudo apt-get install lshw
-            #subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
-            subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
-            subprocess_return = str(subprocess_out.stdout.read())
-            soc_id = subprocess_return.split(",").pop()
-            print(soc_id)
-            list_soc_ids = ["194","210","194","186","210"]
+            
+            list_of_machine_ids =[2180,3310,3489,2888,3448] 
+            list_of_machine_names = ["Jetson TX1", "NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","NVIDIA Jetson AGX Xavier"," NVIDIA® Jetson Nano™"]
+            def check_in_it(subprocess_that_made):
+                machine_is = None
+                for i in range(len(list_of_machine_ids)):
+                    if str(list_of_machine_ids[i]) in subprocess_that_made:                    
+                        machine_is = list_of_machine_names[i]
+                return machine_is
+            
+            try:
+                subprocess_out = subprocess.Popen("cat /proc/device-tree/compatible", shell=True, stdout=subprocess.PIPE)
+                subprocess_return1 = str(subprocess_out.stdout.read())
+                machine_is = check_in_it(subprocess_return1)
+            except:
+                machine_is = None                
+            
+            if machine_is == None:
+                try:
+                    subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,dtsfilename", shell=True, stdout=subprocess.PIPE)
+                    subprocess_return1 = str(subprocess_out.stdout.read())
+                    machine_is = check_in_it(subprocess_return1)
+                except:
+                    machine_is = None    
+                            
+            if machine_is == None:
+                try:
+                    subprocess_out = subprocess.Popen("cat /proc/device-tree/nvidia,boardids", shell=True, stdout=subprocess.PIPE)
+                    subprocess_return1 = str(subprocess_out.stdout.read())
+                    machine_is = check_in_it(subprocess_return1)
+                except:
+                    machine_is = None    
 
-            list_soc_ids_machines = ["Jetson Xavier NX","Jetson Nano","Jetson AGX Xavier series","Jetson TX2","Jetson TX1"]
-            #print("There should written machine id at around end of string : ",subprocess_return) 
-            list_of_machine_ids =[3668 ,3448,2888,3310,3489,2180] 
-            #print("list of machine ids ",list_of_machine_ids)
+            print(machine_is)
 
-            list_of_machine_names = ["NVIDIA Jetson Xavier NX", "NVIDIA Jetson Nano","NVIDIA Jetson AGX Xavier series","original NVIDIA Jetson TX2","NVIDIA Jetson TX2i and Jetson TX2 4GB","Jetson TX1"]
-            #print("corresponding list of machine names  ",list_of_machine_names)
-
-            found = False
-            for i in range(len(list_soc_ids)):
-                if str(list_soc_ids[i]) in soc_id:
-                    print(list_soc_ids_machines[i])
-                    found = True
-            if found == False:
+            
+            if machine_is == None:
                 print("unknown jetson")     
 
         else:
